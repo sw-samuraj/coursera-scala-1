@@ -14,8 +14,10 @@ object Main {
    * Exercise 1
    */
     def pascal(c: Int, r: Int): Int = {
-      if (c == 0) 1
-      else c * (r - c) / (c + 1)
+      def loop(c: Int, r: Int): Int =
+        if (c == 0) 1
+        else ((r - c) / c) * loop(r, c - 1)
+      loop(c, r + 1)
     }
   
   /**
