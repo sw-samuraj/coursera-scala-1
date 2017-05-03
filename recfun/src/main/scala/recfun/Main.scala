@@ -28,8 +28,23 @@ object Main {
   /**
    * Exercise 2
    */
-    def balance(chars: List[Char]): Boolean = ???
-  
+    def balance(chars: List[Char]): Boolean = {
+      def count(c: Char, parens: List[Char]): List[Char] = {
+        if (c == '(') parens :+ c
+        else if (c == ')' && parens.isEmpty) parens :+ c
+        else if (c == ')') parens.reverse.tail.reverse
+        else parens
+      }
+
+      def loop(parens: List[Char], tail: List[Char]): Boolean = {
+        if (tail.isEmpty) parens.isEmpty
+        else loop(count(tail.head, parens), tail.tail)
+      }
+
+      if (!chars.contains('(')) false
+      else loop(List[Char](), chars)
+    }
+
   /**
    * Exercise 3
    */
