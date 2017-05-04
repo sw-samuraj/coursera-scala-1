@@ -20,4 +20,19 @@ object session {
   sumInts(12, 42)
   sumCubes(12, 42)
   sumFactorials(2, 12)
+
+  def sumTailRecur(f: Int => Int, a: Int, b: Int): Int = {
+    def loop(a: Int, acc: Int): Int = {
+      if (a > b) acc
+      else loop(a + 1, f(a) + acc)
+    }
+    loop(a, 0)
+  }
+
+  def sumTailInts(a: Int, b: Int) = sumTailRecur(x => x, a, b)
+  def sumTailCubes(a: Int, b: Int) =
+    sumTailRecur(x => x * x * x, a, b)
+
+  sumTailInts(12, 42)
+  sumTailCubes(12, 42)
 }
