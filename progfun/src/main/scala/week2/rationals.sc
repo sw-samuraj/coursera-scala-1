@@ -3,14 +3,19 @@ val y = new Rational(5, 7)
 val z = new Rational(3, 2)
 x.numer
 x.denom
-x.add(y)
-x.sub(y).sub(z)
-y.add(y)
-x.less(y)
+x + y
+x - y - z
+y + y
+x < y
 x.max(y)
 // val strange = new Rational(1, 0)
 // strange.add(strange)
 new Rational(2)
+
+x max y
+-x
+-y
+-z
 
 class Rational(x: Int, y: Int) {
   require (y != 0, "denominator must be non-zero")
@@ -20,21 +25,21 @@ class Rational(x: Int, y: Int) {
 
   def this(x: Int) = this(x, 1)
 
-  def add(that: Rational) =
+  def + (that: Rational) =
     new Rational(
       numer * that.denom + that.numer * denom,
       denom * that.denom
     )
 
-  def neg: Rational = new Rational(-numer, denom)
+  def unary_- : Rational = new Rational(-numer, denom)
 
-  def sub(that: Rational) = add(that.neg)
+  def - (that: Rational) = this + -that
 
-  def less(that: Rational) =
+  def < (that: Rational) =
     numer * that.denom < that.numer * denom
 
   def max(that: Rational) =
-    if (this.less(that)) that else this
+    if (this < (that)) that else this
 
   private def gcd(a: Int, b: Int): Int =
     if (b == 0) a else gcd(b, a % b)
