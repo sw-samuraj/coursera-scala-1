@@ -193,8 +193,37 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  test("filter filters the set via predicate") {
+  test("odd numbers") {
+    assert(!odd(0))
+    assert(odd(1))
+    assert(!odd(2))
+    assert(odd(3))
+    assert(!odd(4))
+    assert(odd(5))
+    assert(!odd(6))
+  }
 
+  test("even numbers") {
+    assert(even(0))
+    assert(!even(1))
+    assert(even(2))
+    assert(!even(3))
+    assert(even(4))
+    assert(!even(5))
+    assert(even(6))
+  }
+
+  test("filter filters the set via predicate") {
+    new TestDoubletonSets {
+      val f = filter(d1, odd)
+      assert(contains(f, 1))
+      assert(!contains(f, 2))
+    }
+    new TestDoubletonSets {
+      val f = filter(d1, even)
+      assert(!contains(f, 1))
+      assert(contains(f, 2))
+    }
   }
 
 }

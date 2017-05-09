@@ -49,6 +49,15 @@ object FunSets {
     */
   def filter(s: Set, p: Int => Boolean): Set = ???
 
+  /**
+    * Returns true if the given number is even.
+    */
+  def even(x: Int): Boolean = 0 == x % 2
+
+  /**
+    * Returns true if the given number is odd.
+    */
+  def odd(x: Int): Boolean = !even(x)
 
   /**
     * The bounds for `forall` and `exists` are +/- 1000.
