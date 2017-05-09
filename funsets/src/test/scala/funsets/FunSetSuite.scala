@@ -98,6 +98,11 @@ class FunSetSuite extends FunSuite {
        * the test fails. This helps identifying which assertion failed.
        */
       assert(contains(s1, 1), "Singleton")
+      assert(contains(s2, 2), "Singleton")
+      assert(contains(s3, 3), "Singleton")
+
+      assert(!contains(s1, 0), "Singleton")
+      assert(!contains(s1, 2), "Singleton")
     }
   }
 
@@ -108,7 +113,84 @@ class FunSetSuite extends FunSuite {
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
     }
+
+    new TestSets {
+      val s = union(s2, s3)
+      assert(!contains(s, 1), "Union 1")
+      assert(contains(s, 2), "Union 2")
+      assert(contains(s, 3), "Union 3")
+    }
+
+    new TestSets {
+      val s = union(s1, s3)
+      assert(contains(s, 1), "Union 1")
+      assert(!contains(s, 2), "Union 2")
+      assert(contains(s, 3), "Union 3")
+    }
   }
 
+  trait TestDoubletonSets {
+    val d1 = doubletonSet(1, 2)
+    val d2 = doubletonSet(2, 3)
+    val d3 = doubletonSet(1, 3)
+  }
+
+  test("intersect contains only common elements") {
+    new TestSets {
+      val i = intersect(s1, s2)
+      assert(!contains(i, 1))
+    }
+    new TestSets {
+      val i = intersect(s1, s1)
+      assert(contains(i, 1))
+    }
+    new TestDoubletonSets {
+      val i = intersect(d1, d2)
+      assert(!contains(i, 1))
+      assert(contains(i, 2))
+      assert(!contains(i, 3))
+    }
+    new TestDoubletonSets {
+      val i = intersect(d2, d3)
+      assert(!contains(i, 1))
+      assert(!contains(i, 2))
+      assert(contains(i, 3))
+    }
+    new TestDoubletonSets {
+      val i = intersect(d1, d3)
+      assert(contains(i, 1))
+      assert(!contains(i, 2))
+      assert(!contains(i, 3))
+    }
+  }
+
+  test("diff contains only elements from s which aren't in t") {
+    new TestSets {
+      val d = diff(s1, s2)
+      assert(contains(d, 1))
+    }
+    new TestSets {
+      val d = diff(s1, s1)
+      assert(!contains(d, 1))
+    }
+    new TestDoubletonSets {
+      val d = diff(d1, d2)
+      assert(contains(d, 1))
+      assert(!contains(d, 2))
+      assert(!contains(d, 3))
+    }
+    new TestDoubletonSets {
+      val d = diff(d2, d3)
+      assert(!contains(d, 1))
+      assert(contains(d, 2))
+      assert(!contains(d, 3))
+    }
+    new TestDoubletonSets {
+      val d = diff(d1, d3)
+      assert(!contains(d, 1))
+      assert(contains(d, 2))
+      assert(!contains(d, 3))
+    }
+  }
 
 }
