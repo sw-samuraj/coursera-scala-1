@@ -215,7 +215,7 @@ class FunSetSuite extends FunSuite {
 
   trait TestRangeSets {
     val r1 = rangeSet(1, 10)
-    val r2 = rangeSet(-1000, 1000)
+    val r2 = rangeSet(-10, -1)
   }
 
   test("filter filters the set via a predicate") {
@@ -273,14 +273,25 @@ class FunSetSuite extends FunSuite {
     assert(!neg(1))
   }
 
-  test("forall elements, predicate should be true") {
+  test("forall existential quantifier") {
     new TestRangeSets {
       assert(forall(r1, pos))
-      assert(forall(rangeSet(-10, -1), neg))
+      assert(forall(r2, neg))
       assert(!forall(r1, neg))
-      assert(!forall(rangeSet(-10, -1), pos))
+      assert(!forall(r2, pos))
       assert(forall(filter(r1, even), even))
       assert(forall(filter(r1, odd), odd))
+    }
+  }
+
+  test("exists existential quantifier") {
+    new TestRangeSets {
+      assert(exists(r1, pos))
+      assert(exists(r2, neg))
+      assert(!exists(r1, neg))
+      assert(!exists(r2, pos))
+      assert(exists(union(r1, r2), pos))
+      assert(exists(union(r1, r2), neg))
     }
   }
 
