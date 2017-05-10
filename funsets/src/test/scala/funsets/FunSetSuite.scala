@@ -295,4 +295,13 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("map sequence function") {
+    val r = rangeSet(1, 3)
+    val doubledSet = filter(rangeSet(1, 6), (x: Int) => x == 1 || x == 4 || x == 6)
+    val squaredSet = filter(rangeSet(1, 9), (x: Int) => x == 1 || x == 4 || x == 9)
+
+    assert(doubledSet === map(r, (x: Int) => x * 2))
+    assert(squaredSet === map(r, (x: Int) => x * x))
+  }
+
 }
