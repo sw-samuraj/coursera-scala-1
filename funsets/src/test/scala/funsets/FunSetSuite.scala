@@ -297,11 +297,16 @@ class FunSetSuite extends FunSuite {
 
   test("map sequence function") {
     val r = rangeSet(1, 3)
-    val doubledSet = filter(rangeSet(1, 6), (x: Int) => x == 1 || x == 4 || x == 6)
-    val squaredSet = filter(rangeSet(1, 9), (x: Int) => x == 1 || x == 4 || x == 9)
+    val doubledSet = map(r, (x: Int) => x * 2)
+    val squaredSet = map(r, (x: Int) => x * x)
 
-    assert(doubledSet === map(r, (x: Int) => x * 2))
-    assert(squaredSet === map(r, (x: Int) => x * x))
+    assert(contains(doubledSet, 2))
+    assert(contains(doubledSet, 4))
+    assert(contains(doubledSet, 6))
+
+    assert(contains(squaredSet, 1))
+    assert(contains(squaredSet, 4))
+    assert(contains(squaredSet, 9))
   }
 
 }
