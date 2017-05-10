@@ -213,7 +213,12 @@ class FunSetSuite extends FunSuite {
     assert(even(6))
   }
 
-  test("filter filters the set via predicate") {
+  trait TestRangeSets {
+    val r1 = rangeSet(1, 10)
+    val r2 = rangeSet(-1000, 1000)
+  }
+
+  test("filter filters the set via a predicate") {
     new TestDoubletonSets {
       val f = filter(d1, odd)
       assert(contains(f, 1))
@@ -223,6 +228,59 @@ class FunSetSuite extends FunSuite {
       val f = filter(d1, even)
       assert(!contains(f, 1))
       assert(contains(f, 2))
+    }
+    new TestRangeSets {
+      val f = filter(r1, odd)
+      assert(!contains(f, 0))
+      assert(contains(f, 1))
+      assert(!contains(f, 2))
+      assert(contains(f, 3))
+      assert(!contains(f, 4))
+      assert(contains(f, 5))
+      assert(!contains(f, 6))
+      assert(contains(f, 7))
+      assert(!contains(f, 8))
+      assert(contains(f, 9))
+      assert(!contains(f, 10))
+      assert(!contains(f, 11))
+    }
+    new TestRangeSets {
+      val f = filter(r1, even)
+      assert(!contains(f, 0))
+      assert(!contains(f, 1))
+      assert(contains(f, 2))
+      assert(!contains(f, 3))
+      assert(contains(f, 4))
+      assert(!contains(f, 5))
+      assert(contains(f, 6))
+      assert(!contains(f, 7))
+      assert(contains(f, 8))
+      assert(!contains(f, 9))
+      assert(contains(f, 10))
+      assert(!contains(f, 11))
+    }
+  }
+
+  test("positive numbers") {
+    assert(!pos(-1))
+    assert(!pos(0))
+    assert(pos(1))
+  }
+
+  test("negative numbers") {
+    assert(neg(-1))
+    assert(!neg(0))
+    assert(!neg(1))
+  }
+
+  test("forall elements, predicate should be true") {
+    new TestRangeSets {
+      assert(forall(r1, pos))
+      assert(forall(rangeSet(-10, -1), neg))
+      assert(!forall(r1, neg))
+      assert(!forall(rangeSet(-10, -1), pos))
+      assert(forall(filter(r1, even), even))
+      assert(forall(filter(r1, odd), odd))
     }
   }
 

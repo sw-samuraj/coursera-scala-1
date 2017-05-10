@@ -19,12 +19,17 @@ object FunSets {
   /**
     * Returns the set of the one given element.
     */
-  def singletonSet(elem: Int): Set = (x: Int) => if (x == elem) true else false
+  def singletonSet(elem: Int): Set = (x: Int) => x == elem
 
   /**
-    * Returns the set of the one given element.
+    * Returns the set of the two given elements.
     */
-  def doubletonSet(first: Int, second: Int): Set = (x: Int) => if (x == first || x == second) true else false
+  def doubletonSet(first: Int, second: Int): Set = (x: Int) => x == first || x == second
+
+  /**
+    * Returns the set of the range between min and max elements.
+    */
+  def rangeSet(min: Int, max: Int): Set = (x: Int) => x >= min && x <= max
 
   /**
     * Returns the union of the two given sets,
@@ -60,6 +65,16 @@ object FunSets {
   def odd(x: Int): Boolean = !even(x)
 
   /**
+    * Returns true if the given number is positive.
+    */
+  def pos(x: Int): Boolean = x > 0
+
+  /**
+    * Returns true if the given number is positive.
+    */
+  def neg(x: Int): Boolean = x < 0
+
+  /**
     * The bounds for `forall` and `exists` are +/- 1000.
     */
   val bound = 1000
@@ -69,12 +84,12 @@ object FunSets {
     */
   def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (s(a) && !p(a)) false
+      else if (a > bound) true
+      else iter(a + 1)
     }
 
-    iter(???)
+    iter(-bound)
   }
 
   /**
