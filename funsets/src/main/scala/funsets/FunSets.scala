@@ -47,7 +47,7 @@ object FunSets {
   /**
     * Returns the subset of `s` for which `p` holds.
     */
-  def filter(s: Set, p: Int => Boolean): Set = ???
+  def filter(s: Set, p: Int => Boolean): Set = (x: Int) => s(x) && p(x)
 
   /**
     * Returns true if the given number is even.
