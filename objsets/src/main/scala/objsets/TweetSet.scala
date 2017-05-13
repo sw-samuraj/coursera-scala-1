@@ -53,10 +53,10 @@ abstract class TweetSet {
   /**
     * Returns a new `TweetSet` that is the union of `TweetSet`s `this` and `that`.
     *
-    * Question: Should we implment this method here, or should it remain abstract
+    * Question: Should we implement this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def union(that: TweetSet): TweetSet = ???
+  def union(that: TweetSet): TweetSet
 
   /**
     * Returns the tweet from this set which has the greatest retweet count.
@@ -119,6 +119,8 @@ class Empty extends TweetSet {
 
   def incl(tweet: Tweet): TweetSet = new NonEmpty(tweet, new Empty, new Empty)
 
+  def union(that: TweetSet): TweetSet = that
+
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
@@ -126,8 +128,11 @@ class Empty extends TweetSet {
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
-
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
+    if (left.isInstanceOf[Empty] && right.isInstanceOf[Empty]) acc
+    else if (p(elem)) left.filterAcc(p, acc.incl(elem)) union (right.filterAcc(p, acc.incl(elem)))
+    else left.filterAcc(p, acc) union (right.filterAcc(p, acc))
+  }
 
   /**
     * The following methods are already implemented
@@ -143,6 +148,8 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     else if (elem.text < x.text) new NonEmpty(elem, left, right.incl(x))
     else this
   }
+
+  def union(that: TweetSet): TweetSet = ((left union right) union that) incl elem
 
   def remove(tw: Tweet): TweetSet =
     if (tw.text < elem.text) new NonEmpty(elem, left.remove(tw), right)
