@@ -72,4 +72,22 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("empty set throws NoSuchElement exception for mostRetweeted") {
+    new TestSets {
+      intercept[NoSuchElementException] {
+        set1.mostRetweeted
+      }
+    }
+  }
+
+  test("mostRetweeted") {
+    new TestSets {
+      val set6 = set5.incl(new Tweet("x", "x body", 42))
+      val topTweet = set6.mostRetweeted
+
+      assert(topTweet.user === "x")
+      assert(topTweet.retweets === 42)
+    }
+  }
+
 }
