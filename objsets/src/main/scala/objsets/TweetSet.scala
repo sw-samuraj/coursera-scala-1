@@ -75,7 +75,7 @@ abstract class TweetSet {
     * have the highest retweet count.
     *
     * Hint: the method `remove` on TweetSet will be very useful.
-    * Question: Should we implment this method here, or should it remain abstract
+    * Question: Should we implement this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
   def descendingByRetweet: TweetList = ???
@@ -182,7 +182,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     * Question: Should we implement this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet = {
+    def moreRetweets(tweet1: Tweet, tweet2: Tweet): Tweet = {
+      if (tweet1.retweets > tweet2.retweets) tweet1 else tweet2
+    }
+
+    if (left.isInstanceOf[Empty] && right.isInstanceOf[Empty]) elem
+    else if (right.isInstanceOf[Empty]) moreRetweets(left.mostRetweeted, elem)
+    else if (left.isInstanceOf[Empty]) moreRetweets(right.mostRetweeted, elem)
+    else moreRetweets(left.mostRetweeted, moreRetweets(left.mostRetweeted, elem))
+  }
 }
 
 trait TweetList {
