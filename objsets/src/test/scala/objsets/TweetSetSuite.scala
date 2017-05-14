@@ -90,4 +90,17 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("reverse empty list") {
+    assert(Nil.reverse === Nil)
+  }
+
+  test("reverse list") {
+    val t1 = new Tweet("a", "a body", 1)
+    val t2 = new Tweet("b", "b body", 2)
+    val l = new Cons(t1, new Cons(t2, Nil))
+    val lr = l.reverse
+
+    assert(lr.head.retweets === 2)
+    assert(lr.tail.head.retweets === 1)
+  }
 }

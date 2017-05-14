@@ -78,7 +78,14 @@ abstract class TweetSet {
     * Question: Should we implement this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = {
+    def loop(acc: TweetList, s: TweetSet): TweetList = {
+      if (s.isInstanceOf[Empty]) acc
+      else loop(new Cons(s.mostRetweeted, acc), s.remove(s.mostRetweeted))
+    }
+
+    loop(Nil, this).reverse
+  }
 
   /**
     * The following methods are already implemented
@@ -206,6 +213,11 @@ trait TweetList {
       f(head)
       tail.foreach(f)
     }
+
+  /**
+    * Returns the list in reverse order.
+    */
+  def reverse: TweetList
 }
 
 object Nil extends TweetList {
@@ -214,10 +226,24 @@ object Nil extends TweetList {
   def tail = throw new java.util.NoSuchElementException("tail of EmptyList")
 
   def isEmpty = true
+
+  def reverse: TweetList = this
 }
 
 class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
   def isEmpty = false
+
+  /**
+    * Returns the list in reverse order.
+    */
+  def reverse: TweetList = {
+    def loop(acc: TweetList, l: TweetList): TweetList = {
+      if (l.isEmpty) acc
+      else loop(new Cons(l.head, acc), l.tail)
+    }
+
+    loop(Nil, this)
+  }
 }
 
 
