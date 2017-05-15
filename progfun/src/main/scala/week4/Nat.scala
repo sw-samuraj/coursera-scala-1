@@ -15,7 +15,7 @@ object Zero extends Nat {
   def -(that: Nat): Nat = if (that.isZero) this else throw new Error("negative number")
 }
 
-class Succ(n: Nat) extends Nat {
+case class Succ(n: Nat) extends Nat {
   def isZero: Boolean = false
   def predecessor: Nat = n
   def +(that: Nat): Nat = new Succ(n + that)
