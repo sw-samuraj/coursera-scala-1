@@ -19,16 +19,25 @@ class HuffmanSuite extends FunSuite {
   test("weight of a larger tree") {
     new TestTrees {
       assert(weight(t1) === 5)
+      assert(weight(t2) === 9)
     }
   }
 
 
   test("chars of a larger tree") {
     new TestTrees {
+      assert(chars(t1) === List('a', 'b'))
       assert(chars(t2) === List('a', 'b', 'd'))
     }
   }
 
+  test("character frequencies") {
+    assert(times(List()) === List())
+    assert(times(List('a', 'a', 'a')) === List(('a', 3)))
+    assert(times(List('a', 'b', 'a')) === List(('a', 2), ('b', 1)))
+    assert(times(List('a', 'b', 'a', 'c', 'a', 'c')) ===
+      List(('a', 3), ('b', 1), ('c', 2)))
+  }
 
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
