@@ -62,6 +62,16 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("combine empty list returns empty list") {
+    assert(combine(List()) === List())
+  }
+
+  test("combine single list returns the same list") {
+    new TestTrees {
+      assert(combine(List(t1)) === List(t1))
+    }
+  }
+
   test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4)))
