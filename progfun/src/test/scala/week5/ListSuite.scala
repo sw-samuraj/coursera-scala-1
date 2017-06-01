@@ -81,4 +81,50 @@ class ListSuite extends FunSuite{
     }
   }
 
+  test("singleton list of Nil") {
+    val nilList = List(Nil)
+
+    assert(!nilList.isEmpty)
+    assert(nilList.head === Nil)
+    assert(nilList.tail === Nil)
+  }
+
+  test("doubleton list of Nils") {
+    val nilList = List(Nil, Nil)
+
+    assert(!nilList.isEmpty)
+    assert(nilList.head === Nil)
+    assert(nilList.tail.head === Nil)
+    assert(nilList.tail.tail === Nil)
+  }
+
+  test("Nil prepend") {
+    val one = Nil.prepend(1)
+
+    assert(one.head === 1)
+    assert(one.tail === Nil)
+  }
+
+  test("empty list prepend") {
+    val one = List().prepend(1)
+
+    assert(one.head === 1)
+    assert(one.tail === Nil)
+  }
+
+  test("singleton list prepend") {
+    val two = List(2).prepend(1)
+
+    assert(two.head === 1)
+    assert(two.tail.head === 2)
+    assert(two.tail.tail === Nil)
+  }
+
+  test("singleton list prepend Nil") {
+    val one = List(1).prepend(Nil)
+
+    assert(one.head === Nil)
+    assert(one.tail.head === 1)
+  }
+
 }
