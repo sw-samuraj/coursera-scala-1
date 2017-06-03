@@ -74,13 +74,43 @@ class HuffmanSuite extends FunSuite {
 
   test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+
     assert(combine(leaflist) === List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4)))
   }
 
   test("combine until singleton") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+
     assert(until(singleton, combine)(leaflist) ===
       List(Fork(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4), List('e', 't', 'x'), 7)))
+  }
+
+  test("create code tree") {
+    val text = string2Chars("ettxxxx")
+
+    assert(createCodeTree(text) ===
+      Fork(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4), List('e', 't', 'x'), 7))
+  }
+
+  trait treeAndBites {
+    val tree = createCodeTree(string2Chars("AAABBC"))
+    val binA = List(1)
+    val charA = List('A')
+    val binC = List(0, 0)
+    val charC = List('C')
+    val charAbc = List('A', 'B', 'C')
+    val binAbc = List(1, 0, 1, 0, 0)
+    val charCba = List('C', 'B', 'A')
+    val binCba = List(0, 0, 1, 0, 1)
+  }
+
+  test("decode") {
+    new treeAndBites {
+      assert(decode(tree, binA) === charA)
+      assert(decode(tree, binC) === charC)
+      assert(decode(tree, binAbc) === charAbc)
+      assert(decode(tree, binCba) === charCba)
+    }
   }
 
   test("decode and encode a very short text should be identity") {
