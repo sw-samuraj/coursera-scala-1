@@ -119,4 +119,8 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("decode french secret") {
+    assert(decodedSecret === List('h', 'u', 'f', 'f', 'm', 'a', 'n', 'e', 's', 't', 'c', 'o', 'o', 'l'))
+  }
+
 }
