@@ -113,14 +113,23 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("decode french secret") {
+    assert(decodedSecret === List('h', 'u', 'f', 'f', 'm', 'a', 'n', 'e', 's', 't', 'c', 'o', 'o', 'l'))
+  }
+
+  test("encode") {
+    new treeAndBites {
+      assert(encode(tree)(charA) === binA)
+      assert(encode(tree)(charC) === binC)
+      assert(encode(tree)(charAbc) === binAbc)
+      assert(encode(tree)(charCba) === binCba)
+    }
+  }
+
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
-  }
-
-  test("decode french secret") {
-    assert(decodedSecret === List('h', 'u', 'f', 'f', 'm', 'a', 'n', 'e', 's', 't', 'c', 'o', 'o', 'l'))
   }
 
 }
