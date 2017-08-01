@@ -163,16 +163,17 @@ object Huffman {
     * This function decodes the bit sequence `bits` using the code tree `tree` and returns
     * the resulting list of characters.
     */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = bits match  {
-    case List() => tree match {
-      case Leaf(char, weight) => List(char)
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def loop(subTree: CodeTree, bits: List[Bit]): List[Char] = subTree match {
+      case Leaf(char, _) =>
+        if (bits.isEmpty) List(char)
+        else char :: loop(tree, bits)
+      case Fork(left, right, _, _) =>
+        if (bits.head == 1) loop(right, bits.tail)
+        else loop(left, bits.tail)
     }
-    case b :: bs => tree match {
-      case Leaf(char, weight) => List(char)
-      case Fork(left, right, chars, weight) =>
-        if (b == 1) decode(right, bs)
-        else decode(left, bs)
-    }
+
+    loop(tree, bits)
   }
 
   /**

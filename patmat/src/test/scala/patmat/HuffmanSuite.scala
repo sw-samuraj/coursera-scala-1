@@ -101,7 +101,7 @@ class HuffmanSuite extends FunSuite {
     val charAbc = List('A', 'B', 'C')
     val binAbc = List(1, 0, 1, 0, 0)
     val charCba = List('C', 'B', 'A')
-    val binCba = List(0, 0, 1, 0, 1)
+    val binCba = List(0, 0, 0, 1, 1)
   }
 
   test("decode") {
